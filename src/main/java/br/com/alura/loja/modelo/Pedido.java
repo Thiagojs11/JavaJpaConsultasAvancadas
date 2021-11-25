@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,28 +16,41 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="pedidos")
+@Table(name = "pedidos")
 public class Pedido {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;	
+	private Long id;
+	@Column(name = "valor_total")
 	private BigDecimal valorTotal;
 	private LocalDate data = LocalDate.now();
-	
+
 	@ManyToOne
-	private Cliente cliente; 	
+	private Cliente cliente;
 	
-	@OneToMany(mappedBy="pedido")
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ItemPedido> itens = new ArrayList<>();
-	
+
 	public Pedido() {
 	}
 
-	public Pedido(BigDecimal valorTotal, LocalDate data, Cliente cliente) {		
+	public Pedido(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
+	public void adicionarItem(ItemPedido item) {
+		item.setPedido(this);
+		this.itens.add(item);
+	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public BigDecimal getValorTotal() {
 		return valorTotal;
@@ -60,12 +75,5 @@ public class Pedido {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-	
-	public void adicionarItem(ItemPedido item) {
-		item.setPedido(this);
-		this.itens.add(item);
-	}
-	
-	
+
 }
