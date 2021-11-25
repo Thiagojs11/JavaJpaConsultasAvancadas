@@ -2,6 +2,7 @@ package br.com.alura.loja.modelo;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,26 +11,29 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="itens_pedido")
+@Table(name = "itens_pedido")
 public class ItemPedido {
-	
-	
+
 	@Id
-	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Column(name = "preco_unitario")
 	private BigDecimal precoUnitario;
-	private int quantidate;
-	
+
+	private int quantidade;
+
 	@ManyToOne
 	private Pedido pedido;
+
 	@ManyToOne
 	private Produto produto;
-	
-	public ItemPedido() {}
 
-	public ItemPedido(int quantidate, Pedido pedido, Produto produto) {
-		this.quantidate = quantidate;
+	public ItemPedido() {
+	}
+
+	public ItemPedido(int quantidade, Pedido pedido, Produto produto) {
+		this.quantidade = quantidade;
 		this.pedido = pedido;
 		this.precoUnitario = produto.getPreco();
 		this.produto = produto;
@@ -51,12 +55,12 @@ public class ItemPedido {
 		this.precoUnitario = precoUnitario;
 	}
 
-	public int getQuantidate() {
-		return quantidate;
+	public int getQuantidade() {
+		return quantidade;
 	}
 
-	public void setQuantidate(int quantidate) {
-		this.quantidate = quantidate;
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	public Pedido getPedido() {
@@ -74,7 +78,5 @@ public class ItemPedido {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
-	
-	
-	
+
 }
