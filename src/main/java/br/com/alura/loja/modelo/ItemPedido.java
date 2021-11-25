@@ -31,6 +31,7 @@ public class ItemPedido {
 	public ItemPedido(int quantidate, Pedido pedido, Produto produto) {
 		this.quantidate = quantidate;
 		this.pedido = pedido;
+		this.precoUnitario = produto.getPreco();
 		this.produto = produto;
 	}
 
